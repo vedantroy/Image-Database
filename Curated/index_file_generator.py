@@ -14,7 +14,7 @@ currentDirectory = os.path.dirname(os.path.realpath(__file__))
 #Setup JSON object 
 index_data = {} 
 
-base_url = "https://github.com/vedantroy/Image-Database/raw/master/curated"
+base_url = "https://github.com/vedantroy/Image-Database/raw/master/Curated"
 
 #Traverse all sub-directories. 
 for sub_dir in os.walk(currentDirectory):
