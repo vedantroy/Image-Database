@@ -1,5 +1,6 @@
 import os 
 import json 
+import collections
 
 
 filename = "index.json"
@@ -10,6 +11,8 @@ indexFile.truncate(0)
 
 #Get directory where this script is located 
 currentDirectory = os.path.dirname(os.path.realpath(__file__))
+
+all_files = list()
 
 #Setup JSON object 
 index_data = {} 
@@ -22,9 +25,12 @@ for sub_dir in os.walk(currentDirectory):
 	if len(sub_dir[1]) == 0:
 		sub_dir_name = sub_dir[0].split('\\')[-1]
 
+		if len(sub_dir[2]) == 0:
+			print("Empty directory: " + sub_dir_name)
 		#Prepend url to each file name
 		file_urls = list()
 		for file_name in sub_dir[2]:
+			all_files.append(file_name)
 			file_urls.append(base_url + "/" + sub_dir_name + "/" + file_name)
 
 		index_data[sub_dir_name] = file_urls
@@ -33,6 +39,10 @@ for sub_dir in os.walk(currentDirectory):
 
 indexFile.write(json.dumps(index_data))
 indexFile.close()
+
+print("Duplicates: ")
+print([item for item, count in collections.Counter(all_files).items() if count > 1])
+
 
 #Open file in default program
 os.system("start " + filename)
